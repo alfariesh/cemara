@@ -56,7 +56,7 @@ export default function LoginPage() {
                                 <Button type="submit" size="lg">
                                     Sign in
                                 </Button>
-                                <Button color="secondary-gray" size="lg">
+                                <Button color="secondary" size="lg">
                                     Register
                                 </Button>
                             </div>
