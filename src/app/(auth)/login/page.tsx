@@ -4,7 +4,7 @@ import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
-import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
+import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 
@@ -23,8 +23,7 @@ export default function LoginPage() {
                                     size="md"
                                     className="absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2 md:hidden"
                                 />
-                                <UntitledLogoMinimal className="relative z-10 size-12 max-md:hidden" />
-                                <UntitledLogoMinimal className="relative z-10 size-10 md:hidden" />
+                                <CemaraLogo className="relative z-10 h-auto w-48 max-md:w-40" />
                             </div>
                             <div className="z-10 flex flex-col gap-2 md:gap-3">
                                 <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">Welcome back</h1>
