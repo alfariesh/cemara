@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/base/buttons/button";
-import { SocialButton } from "@/components/base/buttons/social-button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
@@ -57,16 +56,15 @@ export default function LoginPage() {
                                 <Button type="submit" size="lg">
                                     Sign in
                                 </Button>
-                                <SocialButton social="google" theme="color">
-                                    Sign in with Google
-                                </SocialButton>
+                                <Button color="secondary-gray" size="lg">
+                                    Register
+                                </Button>
                             </div>
                         </Form>
 
-                        <div className="flex justify-center gap-1 text-center">
-                            <span className="text-sm text-tertiary">Don't have an account?</span>
+                        <div className="flex justify-center text-center">
                             <Button href="#" color="link-color" size="md">
-                                Sign up
+                                Forgot password
                             </Button>
                         </div>
                     </div>
