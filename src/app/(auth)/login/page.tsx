@@ -71,7 +71,18 @@ export default function LoginPage() {
                 </div>
 
                 <footer className="hidden p-8 pt-11 lg:block">
-                    <p className="text-sm text-tertiary">© Markisa 2024</p>
+                    <div className="flex items-center justify-between gap-4">
+                        <p className="text-sm text-tertiary">© Cemara - PT Pupuk Indonesia</p>
+                        <div className="flex items-center gap-2">
+                            <Button color="tertiary" size="sm">
+                                Indonesia
+                            </Button>
+                            <span className="text-sm text-tertiary">|</span>
+                            <Button color="tertiary" size="sm">
+                                English
+                            </Button>
+                        </div>
+                    </div>
                 </footer>
             </div>
 
