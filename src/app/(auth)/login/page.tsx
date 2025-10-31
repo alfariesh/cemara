@@ -70,8 +70,8 @@ export default function LoginPage() {
                     </div>
                 </div>
 
-                <footer className="hidden p-8 pt-11 lg:block">
-                    <div className="flex items-center justify-between gap-4">
+                <footer className="p-4 pt-8 lg:p-8 lg:pt-11">
+                    <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <p className="text-sm text-tertiary">© Cemara - PT Pupuk Indonesia</p>
                         <div className="flex items-center gap-2">
                             <Button color="tertiary" size="sm" iconLeading={IndonesiaFlag}>
