@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Form } from "@/components/base/form/form";
@@ -9,6 +10,8 @@ import { BackgroundPattern } from "@/components/shared-assets/background-pattern
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 
 export default function LoginPage() {
+    const router = useRouter();
+
     return (
         <section className="grid min-h-screen grid-cols-1 overflow-hidden bg-primary lg:grid-cols-2">
             {/* Left side - Login Form */}
@@ -36,6 +39,8 @@ export default function LoginPage() {
                                 e.preventDefault();
                                 const data = Object.fromEntries(new FormData(e.currentTarget));
                                 console.log("Form data:", data);
+                                // Redirect to onboarding page
+                                router.push("/onboarding");
                             }}
                             className="relative z-10 flex flex-col gap-6"
                         >
