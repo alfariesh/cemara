@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    cacheComponents: true,  // Enable Cache Components (moved to root level in 16.0.1+)
     experimental: {
-        cacheComponents: true,  // Enable Cache Components (Next.js 16.0.x stable)
         optimizePackageImports: ["@untitledui/icons"],
     },
 };
