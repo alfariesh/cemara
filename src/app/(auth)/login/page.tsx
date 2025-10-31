@@ -6,6 +6,7 @@ import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
 import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
+import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 
 export default function LoginPage() {
     return (
@@ -74,11 +75,11 @@ export default function LoginPage() {
                     <div className="flex items-center justify-between gap-4">
                         <p className="text-sm text-tertiary">© Cemara - PT Pupuk Indonesia</p>
                         <div className="flex items-center gap-2">
-                            <Button color="tertiary" size="sm">
+                            <Button color="tertiary" size="sm" iconLeading={IndonesiaFlag}>
                                 Indonesia
                             </Button>
                             <span className="text-sm text-tertiary">|</span>
-                            <Button color="tertiary" size="sm">
+                            <Button color="tertiary" size="sm" iconLeading={UsaFlag}>
                                 English
                             </Button>
                         </div>
