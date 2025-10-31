@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Package, Settings01, Truck01 } from "@untitledui/icons";
+import { BarChart12, Package, Settings01, Truck01 } from "@untitledui/icons";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/base/buttons/button";
 import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
@@ -25,7 +25,7 @@ export default function OnboardingPage() {
             disabled: false,
         },
         {
-            icon: BarChart,
+            icon: BarChart12,
             title: "Analytics",
             description: "View reports, insights, and data analytics",
             disabled: false,
