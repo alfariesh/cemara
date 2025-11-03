@@ -1,4 +1,4 @@
-# Untitled UI starter kit for Next.js for Cemara
+# Untitled UI starter kit for Next.js for Cemara v2
 
 This is an official Untitled UI starter kit for Next.js. Kickstart your Untitled UI project with Next.js in seconds.
 
