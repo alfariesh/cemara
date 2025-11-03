@@ -29,8 +29,8 @@ export default function LoginPage() {
                                 <CemaraLogo className="relative z-10 h-auto w-48 max-md:w-40" />
                             </div>
                             <div className="z-10 flex flex-col gap-2 md:gap-3">
-                                <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">Welcome back</h1>
-                                <p className="text-md text-tertiary">Welcome back! Please enter your details.</p>
+                                <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">Selamat datang kembali</h1>
+                                <p className="text-md text-tertiary">Selamat datang kembali! Silakan masukkan detail Anda.</p>
                             </div>
                         </div>
 
@@ -45,45 +45,39 @@ export default function LoginPage() {
                             className="relative z-10 flex flex-col gap-6"
                         >
                             <div className="flex flex-col gap-5">
-                                <Input isRequired hideRequiredIndicator label="Email" type="email" name="email" placeholder="Enter your email" size="md" />
+                                <Input isRequired hideRequiredIndicator label="Email" type="email" name="email" placeholder="Masukkan email Anda" size="md" />
                                 <Input isRequired hideRequiredIndicator label="Password" type="password" name="password" size="md" placeholder="••••••••" />
                             </div>
 
                             <div className="flex items-center">
-                                <Checkbox label="Remember for 30 days" name="remember" />
+                                <Checkbox label="Ingat saya selama 30 hari" name="remember" />
 
                                 <Button color="link-color" size="md" href="#" className="ml-auto">
-                                    Forgot password
+                                    Lupa password?
                                 </Button>
                             </div>
 
                             <div className="flex flex-col gap-4">
                                 <Button type="submit" size="lg">
-                                    Sign in
+                                    Masuk
                                 </Button>
-                                <Button color="secondary" size="lg">
-                                    Register
+                                <Button color="secondary" size="lg" href="/register">
+                                    Daftar
                                 </Button>
                             </div>
                         </Form>
-
-                        <div className="flex justify-center text-center">
-                            <Button href="#" color="link-color" size="md">
-                                Forgot password
-                            </Button>
-                        </div>
                     </div>
                 </div>
 
                 <footer className="p-4 pt-8 lg:p-8 lg:pt-11">
                     <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
-                        <p className="text-sm text-tertiary">© Cemara - PT Pupuk Indonesia</p>
+                        <p className="text-sm text-tertiary">© Cemara - PIHC</p>
                         <div className="flex items-center gap-2">
                             <Button color="tertiary" size="sm" iconLeading={IndonesiaFlag}>
                                 Indonesia
                             </Button>
                             <span className="text-sm text-tertiary">|</span>
-                            <Button color="tertiary" size="sm" iconLeading={UsaFlag}>
+                            <Button color="tertiary" size="sm" iconLeading={UsaFlag} isDisabled>
                                 English
                             </Button>
                         </div>
