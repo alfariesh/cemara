@@ -7,36 +7,68 @@ import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { MenuCard } from "@/components/cemara/menu-card";
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
+import { useAuth } from "@/lib/context/auth-context";
+
+interface MenuItem {
+    id: "wcm" | "dimas" | "respons" | "andalan";
+    icon: React.ComponentType;
+    title: string;
+    description: string;
+}
 
 export default function OnboardingPage() {
     const router = useRouter();
+    const { user, logout } = useAuth();
 
-    const menuItems = [
+    // All available menu items
+    const allMenuItems: MenuItem[] = [
         {
+            id: "wcm",
             icon: Package,
             title: "WCM",
             description: "Manage inventory, stock, and warehouse operations",
-            disabled: false,
         },
         {
+            id: "dimas",
             icon: Truck01,
             title: "DIMAS",
             description: "Track and manage distribution and logistics",
-            disabled: false,
         },
         {
+            id: "respons",
             icon: BarChart12,
             title: "RESPONS",
             description: "View reports, insights, and data analytics",
-            disabled: false,
         },
         {
+            id: "andalan",
             icon: Settings01,
             title: "ANDALAN",
             description: "Configure system settings and preferences",
-            disabled: true,
         },
     ];
+
+    // Filter menu items based on user permissions
+    const getMenuItems = () => {
+        if (!user) {
+            return [];
+        }
+
+        return allMenuItems
+            .map((item) => {
+                const menuStatus = user.menus[item.id];
+                if (menuStatus === "x") {
+                    return null; // Hide menu
+                }
+                return {
+                    ...item,
+                    disabled: menuStatus === "disable",
+                };
+            })
+            .filter((item): item is MenuItem & { disabled: boolean } => item !== null);
+    };
+
+    const menuItems = getMenuItems();
 
     return (
         <section className="flex min-h-screen flex-col overflow-hidden bg-primary">
@@ -62,6 +94,12 @@ export default function OnboardingPage() {
                             <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">
                                 Welcome to Cemara
                             </h1>
+                            {user && (
+                                <p className="text-sm text-gray-500">
+                                    Email: {user.email} | Type: {user.type}
+                                    {user.idSap && ` | SAP ID: ${user.idSap}`}
+                                </p>
+                            )}
                             <p className="text-md text-tertiary md:text-lg">
                                 Choose a module to get started with your supply chain management
                             </p>
@@ -92,7 +130,10 @@ export default function OnboardingPage() {
                             color="tertiary"
                             size="lg"
                             iconLeading={LogOut01}
-                            onClick={() => router.push("/login")}
+                            onClick={() => {
+                                logout();
+                                router.push("/login");
+                            }}
                             className="w-full md:w-auto md:self-center"
                         >
                             Logout

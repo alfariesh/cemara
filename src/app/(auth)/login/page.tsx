@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Form } from "@/components/base/form/form";
@@ -8,9 +9,72 @@ import { Input } from "@/components/base/input/input";
 import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
+import { IconNotification } from "@/components/application/notifications/notifications";
+import { useAuth } from "@/lib/context/auth-context";
+import { getUserByEmail, DEFAULT_PASSWORD } from "@/lib/mock-data/users";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { login } = useAuth();
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.currentTarget));
+        const email = data.email as string;
+        const password = data.password as string;
+
+        // Validate credentials
+        if (password !== DEFAULT_PASSWORD) {
+            toast.custom((t) => (
+                <IconNotification
+                    title="Password Salah"
+                    description="Password yang Anda masukkan tidak sesuai. Silakan coba lagi."
+                    color="error"
+                    hideDismissLabel={true}
+                    onClose={() => toast.dismiss(t)}
+                    onConfirm={() => toast.dismiss(t)}
+                />
+            ));
+            return;
+        }
+
+        const user = getUserByEmail(email);
+        if (!user) {
+            toast.custom((t) => (
+                <IconNotification
+                    title="Email Tidak Ditemukan"
+                    description="Email yang Anda masukkan tidak terdaftar. Silakan periksa kembali."
+                    color="error"
+                    hideDismissLabel={true}
+                    onClose={() => toast.dismiss(t)}
+                    onConfirm={() => toast.dismiss(t)}
+                />
+            ));
+            return;
+        }
+
+        // Login successful
+        login(user);
+        toast.custom((t) => (
+            <IconNotification
+                title="Login Berhasil"
+                description="Selamat datang! Anda akan dialihkan ke halaman utama."
+                color="success"
+                hideDismissLabel={true}
+                onClose={() => {
+                    toast.dismiss(t);
+                }}
+                onConfirm={() => {
+                    toast.dismiss(t);
+                }}
+            />
+        ));
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+            router.push("/onboarding");
+        }, 2000);
+    };
 
     return (
         <section className="grid min-h-screen grid-cols-1 overflow-hidden bg-primary lg:grid-cols-2">
@@ -35,13 +99,7 @@ export default function LoginPage() {
                         </div>
 
                         <Form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                const data = Object.fromEntries(new FormData(e.currentTarget));
-                                console.log("Form data:", data);
-                                // Redirect to onboarding page
-                                router.push("/onboarding");
-                            }}
+                            onSubmit={handleSubmit}
                             className="relative z-10 flex flex-col gap-6"
                         >
                             <div className="flex flex-col gap-5">
