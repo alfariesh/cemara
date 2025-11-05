@@ -52,7 +52,7 @@ export default function LoginPage() {
                             <div className="flex items-center">
                                 <Checkbox label="Ingat saya selama 30 hari" name="remember" />
 
-                                <Button color="link-color" size="md" href="#" className="ml-auto">
+                                <Button color="link-color" size="md" href="/enter-email" className="ml-auto">
                                     Lupa password?
                                 </Button>
                             </div>

@@ -31,7 +31,7 @@ export default function InputPinPage() {
                     <div className="z-10 flex flex-col gap-2 md:gap-3">
                         <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">Masukkan kode verifikasi</h1>
                         <p className="text-md text-tertiary">
-                            Kami telah mengirimkan kode verifikasi ke email Anda. Masukkan kode 4 digit di bawah.
+                            Kami telah mengirimkan kode verifikasi ke email Anda. Masukkan kode 6 digit di bawah.
                         </p>
                     </div>
                 </div>
@@ -39,21 +39,27 @@ export default function InputPinPage() {
                 <div className="flex flex-col items-center gap-6 md:gap-8">
                     <div className="md:hidden">
                         <PinInput size="sm">
-                            <PinInput.Group maxLength={4}>
+                            <PinInput.Group maxLength={6}>
                                 <PinInput.Slot index={0} />
                                 <PinInput.Slot index={1} />
                                 <PinInput.Slot index={2} />
+                                <PinInput.Separator />
                                 <PinInput.Slot index={3} />
+                                <PinInput.Slot index={4} />
+                                <PinInput.Slot index={5} />
                             </PinInput.Group>
                         </PinInput>
                     </div>
                     <div className="max-md:hidden">
                         <PinInput size="md">
-                            <PinInput.Group maxLength={4}>
+                            <PinInput.Group maxLength={6}>
                                 <PinInput.Slot index={0} />
                                 <PinInput.Slot index={1} />
                                 <PinInput.Slot index={2} />
+                                <PinInput.Separator />
                                 <PinInput.Slot index={3} />
+                                <PinInput.Slot index={4} />
+                                <PinInput.Slot index={5} />
                             </PinInput.Group>
                         </PinInput>
                     </div>

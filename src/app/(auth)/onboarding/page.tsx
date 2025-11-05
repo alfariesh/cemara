@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart12, Package, Settings01, Truck01 } from "@untitledui/icons";
+import { BarChart12, LogOut01, Package, Settings01, Truck01 } from "@untitledui/icons";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/base/buttons/button";
 import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
@@ -14,25 +14,25 @@ export default function OnboardingPage() {
     const menuItems = [
         {
             icon: Package,
-            title: "Warehouse Management",
+            title: "WCM",
             description: "Manage inventory, stock, and warehouse operations",
             disabled: false,
         },
         {
             icon: Truck01,
-            title: "Distribution",
+            title: "DIMAS",
             description: "Track and manage distribution and logistics",
             disabled: false,
         },
         {
             icon: BarChart12,
-            title: "Analytics",
+            title: "RESPONS",
             description: "View reports, insights, and data analytics",
             disabled: false,
         },
         {
             icon: Settings01,
-            title: "Settings",
+            title: "ANDALAN",
             description: "Configure system settings and preferences",
             disabled: true,
         },
@@ -69,21 +69,34 @@ export default function OnboardingPage() {
                     </div>
 
                     {/* Menu Cards Grid */}
-                    <div className="z-10 grid grid-cols-1 gap-6 md:grid-cols-2">
-                        {menuItems.map((item, index) => (
-                            <MenuCard
-                                key={index}
-                                icon={item.icon}
-                                title={item.title}
-                                description={item.description}
-                                disabled={item.disabled}
-                                onClick={() => {
-                                    if (!item.disabled) {
-                                        router.push("/");
-                                    }
-                                }}
-                            />
-                        ))}
+                    <div className="z-10 flex flex-col gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            {menuItems.map((item, index) => (
+                                <MenuCard
+                                    key={index}
+                                    icon={item.icon}
+                                    title={item.title}
+                                    description={item.description}
+                                    disabled={item.disabled}
+                                    onClick={() => {
+                                        if (!item.disabled) {
+                                            router.push("/");
+                                        }
+                                    }}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Logout Button */}
+                        <Button
+                            color="tertiary"
+                            size="lg"
+                            iconLeading={LogOut01}
+                            onClick={() => router.push("/login")}
+                            className="w-full md:w-auto md:self-center"
+                        >
+                            Logout
+                        </Button>
                     </div>
                 </div>
             </div>
