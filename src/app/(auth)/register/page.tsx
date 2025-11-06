@@ -272,7 +272,7 @@ export default function RegisterPage() {
 
                             <div className="flex flex-col gap-3">
                                 <label className="text-sm font-medium text-primary">Pilih Tipe Kemitraan</label>
-                                <RadioGroup aria-label="Tipe Kemitraan" name="partnershipType" defaultValue="subsidi">
+                                <RadioGroup aria-label="Tipe Kemitraan" name="partnershipType">
                                     <RadioButton label="Mitra Subsidi" value="subsidi" />
                                     <RadioButton label="Mitra Non Subsidi" value="non_subsidi" />
                                     <RadioButton label="Mitra Subsidi & Non Subsidi" value="subsidi_non_subsidi" />
