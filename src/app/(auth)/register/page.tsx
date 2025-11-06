@@ -12,15 +12,66 @@ import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 import { RadioButton, RadioGroup } from "@/components/base/radio-buttons/radio-buttons";
 import { cx } from "@/utils/cx";
 
+interface FormErrors {
+    name?: string;
+    email?: string;
+}
+
 export default function RegisterPage() {
     const router = useRouter();
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState<FormErrors>({});
 
     const passwordRequirements = {
         minLength: password.length >= 8,
         hasLetters: /[A-Z]/.test(password) && /[a-z]/.test(password),
         hasNumber: /[0-9]/.test(password),
         hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
+
+    const validateEmail = (email: string): string | undefined => {
+        if (!email || email.trim() === "") {
+            return "Email tidak boleh kosong. Silahkan isi email terlebih dahulu.";
+        }
+        if (!email.includes("@")) {
+            return "Format email tidak sesuai. Periksa kembali format email yang diinputkan.";
+        }
+        return undefined;
+    };
+
+    const validateName = (name: string): string | undefined => {
+        if (!name || name.trim() === "") {
+            return "Nama tidak boleh kosong. Silahkan isi nama terlebih dahulu.";
+        }
+        return undefined;
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.currentTarget));
+        const name = data.name as string;
+        const email = data.email as string;
+
+        // Clear previous errors
+        setErrors({});
+
+        // Validate name
+        const nameError = validateName(name);
+        if (nameError) {
+            setErrors((prev) => ({ ...prev, name: nameError }));
+            return;
+        }
+
+        // Validate email
+        const emailError = validateEmail(email);
+        if (emailError) {
+            setErrors((prev) => ({ ...prev, email: emailError }));
+            return;
+        }
+
+        console.log("Register data:", data);
+        // Redirect to email verification page
+        router.push("/input-pin");
     };
 
     return (
@@ -46,18 +97,41 @@ export default function RegisterPage() {
                         </div>
 
                         <Form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                const data = Object.fromEntries(new FormData(e.currentTarget));
-                                console.log("Register data:", data);
-                                // Redirect to onboarding page or dashboard
-                                router.push("/onboarding");
-                            }}
+                            onSubmit={handleSubmit}
                             className="relative z-10 flex flex-col gap-6"
                         >
                             <div className="flex flex-col gap-5">
-                                <Input isRequired hideRequiredIndicator label="Nama" type="text" name="name" placeholder="Masukkan nama Anda" size="md" />
-                                <Input isRequired hideRequiredIndicator label="Email" type="email" name="email" placeholder="Masukkan email Anda" size="md" />
+                                <div className="flex flex-col gap-1">
+                                    <Input
+                                        isRequired
+                                        hideRequiredIndicator
+                                        label="Nama"
+                                        type="text"
+                                        name="name"
+                                        placeholder="Masukkan nama Anda"
+                                        size="md"
+                                        className={errors.name ? "border-red-500 focus:border-red-500" : ""}
+                                    />
+                                    {errors.name && (
+                                        <p className="text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                    <Input
+                                        isRequired
+                                        hideRequiredIndicator
+                                        label="Email"
+                                        type="email"
+                                        name="email"
+                                        placeholder="Masukkan email Anda"
+                                        size="md"
+                                        className={errors.email ? "border-red-500 focus:border-red-500" : ""}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                                    )}
+                                </div>
                                 <Input
                                     isRequired
                                     hideRequiredIndicator
