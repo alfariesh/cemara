@@ -6,7 +6,7 @@ import { Button } from "@/components/base/buttons/button";
 import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { MenuCard } from "@/components/cemara/menu-card";
-import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
+import { ThemeToggle } from "@/components/shared-assets/theme-toggle";
 import { useAuth } from "@/lib/context/auth-context";
 
 interface MenuItem {
@@ -25,26 +25,26 @@ export default function OnboardingPage() {
         {
             id: "wcm",
             icon: Package,
-            title: "WCM",
-            description: "Manage inventory, stock, and warehouse operations",
+            title: "Pendaftaran Subsidi",
+            description: "Kelola pendaftaran mitra untuk program subsidi",
         },
         {
             id: "dimas",
             icon: Truck01,
-            title: "DIMAS",
-            description: "Track and manage distribution and logistics",
+            title: "Pendaftaran Non Subsidi",
+            description: "Kelola pendaftaran mitra untuk program non-subsidi",
         },
         {
             id: "respons",
             icon: BarChart12,
-            title: "RESPONS",
-            description: "View reports, insights, and data analytics",
+            title: "Transaksi Subsidi",
+            description: "Kelola pemesanan, penjualan, dan pelaporan produk subsidi, termasuk pengelolaan dokumen kontrak penjualan dengan Pupuk Indonesia.",
         },
         {
             id: "andalan",
             icon: Settings01,
-            title: "ANDALAN",
-            description: "Configure system settings and preferences",
+            title: "Transaksi Non Subsidi",
+            description: "Kelola pemesanan, dan pelaporan produk non subsidi, termasuk pengelolaan dokumen kontrak penjualan dengan PI.",
         },
     ];
 
@@ -92,16 +92,28 @@ export default function OnboardingPage() {
 
                         <div className="z-10 flex flex-col gap-2 md:gap-3">
                             <h1 className="text-display-xs font-semibold text-primary md:text-display-sm">
-                                Welcome to Cemara
+                                Selamat Datang di CEMARA
                             </h1>
                             {user && (
-                                <p className="text-sm text-gray-500">
-                                    Email: {user.email} | Type: {user.type}
-                                    {user.idSap && ` | SAP ID: ${user.idSap}`}
-                                </p>
+                                <div className="flex flex-col gap-3 text-center">
+                                    <p className="text-sm text-gray-500">
+                                        Email: {user.email}
+                                        {user.idSap && ` | SAP ID: ${user.idSap}`}
+                                    </p>
+                                    <div className="flex flex-wrap justify-center gap-2">
+                                        {user.type && user.type.split(",").map((t, idx) => (
+                                            <span
+                                                key={idx}
+                                                className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-200"
+                                            >
+                                                {t.trim()}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                             )}
                             <p className="text-md text-tertiary md:text-lg">
-                                Choose a module to get started with your supply chain management
+                                Pilih modul yang ingin Anda akses untuk melanjutkan aktivitas Anda
                             </p>
                         </div>
                     </div>
@@ -136,7 +148,7 @@ export default function OnboardingPage() {
                             }}
                             className="w-full md:w-auto md:self-center"
                         >
-                            Logout
+                            Keluar
                         </Button>
                     </div>
                 </div>
@@ -146,15 +158,7 @@ export default function OnboardingPage() {
             <footer className="p-4 pt-8 lg:p-8 lg:pt-11">
                 <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <p className="text-sm text-tertiary">© Cemara - PT Pupuk Indonesia</p>
-                    <div className="flex items-center gap-2">
-                        <Button color="tertiary" size="sm" iconLeading={IndonesiaFlag}>
-                            Indonesia
-                        </Button>
-                        <span className="text-sm text-tertiary">|</span>
-                        <Button color="tertiary" size="sm" iconLeading={UsaFlag}>
-                            English
-                        </Button>
-                    </div>
+                    <ThemeToggle />
                 </div>
             </footer>
         </section>
