@@ -29,7 +29,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" suppressHydrationWarning className="light-mode">
             <body className={cx(inter.variable, "bg-primary antialiased")}>
                 <AuthProvider>
                     <RouteProvider>
