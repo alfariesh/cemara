@@ -10,6 +10,7 @@ import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 import { RadioButton, RadioGroup } from "@/components/base/radio-buttons/radio-buttons";
+import { TermsAndConditionsModal } from "@/components/shared-assets/terms-and-conditions-modal";
 import { cx } from "@/utils/cx";
 import { getUserByEmail } from "@/lib/mock-data/users";
 
@@ -23,6 +24,7 @@ export default function RegisterPage() {
     const router = useRouter();
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<FormErrors>({});
+    const [showTermsModal, setShowTermsModal] = useState(false);
 
     const passwordRequirements = {
         minLength: password.length >= 8,
@@ -277,8 +279,15 @@ export default function RegisterPage() {
                                 </RadioGroup>
                             </div>
 
-                            <div className="flex items-center">
-                                <Checkbox label="Saya setuju dengan syarat dan ketentuan" name="terms" isRequired />
+                            <div className="flex items-center gap-2">
+                                <Checkbox label="Saya setuju dengan " name="terms" isRequired />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowTermsModal(true)}
+                                    className="text-primary hover:underline font-medium"
+                                >
+                                    syarat dan ketentuan
+                                </button>
                             </div>
 
                             <div className="flex flex-col gap-4">
@@ -296,6 +305,11 @@ export default function RegisterPage() {
                         </div>
                     </div>
                 </div>
+
+                <TermsAndConditionsModal
+                    isOpen={showTermsModal}
+                    onClose={() => setShowTermsModal(false)}
+                />
 
                 <footer className="p-4 pt-8 lg:p-8 lg:pt-11">
                     <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
