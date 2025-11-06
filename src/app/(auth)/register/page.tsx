@@ -11,10 +11,12 @@ import { BackgroundPattern } from "@/components/shared-assets/background-pattern
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 import { RadioButton, RadioGroup } from "@/components/base/radio-buttons/radio-buttons";
 import { cx } from "@/utils/cx";
+import { getUserByEmail } from "@/lib/mock-data/users";
 
 interface FormErrors {
     name?: string;
     email?: string;
+    password?: string;
 }
 
 export default function RegisterPage() {
@@ -46,11 +48,19 @@ export default function RegisterPage() {
         return undefined;
     };
 
+    const validatePassword = (pwd: string): string | undefined => {
+        if (!pwd || pwd.trim() === "") {
+            return "Password tidak boleh kosong. Silahkan isi password terlebih dahulu.";
+        }
+        return undefined;
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.currentTarget));
         const name = data.name as string;
         const email = data.email as string;
+        const pwd = data.password as string;
 
         // Clear previous errors
         setErrors({});
@@ -66,6 +76,22 @@ export default function RegisterPage() {
         const emailError = validateEmail(email);
         if (emailError) {
             setErrors((prev) => ({ ...prev, email: emailError }));
+            return;
+        }
+
+        // Validate password
+        const passwordError = validatePassword(pwd);
+        if (passwordError) {
+            setErrors((prev) => ({ ...prev, password: passwordError }));
+            return;
+        }
+
+        // Check if email already registered
+        const existingUser = getUserByEmail(email);
+        if (existingUser) {
+            setErrors({
+                email: "Email sudah terdaftar. Gunakan email lain atau coba login.",
+            });
             return;
         }
 
@@ -132,18 +158,24 @@ export default function RegisterPage() {
                                         <p className="text-sm text-red-600 dark:text-red-400">{errors.email}</p>
                                     )}
                                 </div>
-                                <Input
-                                    isRequired
-                                    hideRequiredIndicator
-                                    label="Password"
-                                    type="password"
-                                    name="password"
-                                    placeholder="••••••••"
-                                    size="md"
-                                    onChange={setPassword}
-                                    minLength={8}
-                                    pattern='.*[!@#$%^&*(),.?":{}|<>].*'
-                                />
+                                <div className="flex flex-col gap-1">
+                                    <Input
+                                        isRequired
+                                        hideRequiredIndicator
+                                        label="Password"
+                                        type="password"
+                                        name="password"
+                                        placeholder="••••••••"
+                                        size="md"
+                                        onChange={setPassword}
+                                        minLength={8}
+                                        pattern='.*[!@#$%^&*(),.?":{}|<>].*'
+                                        className={errors.password ? "border-red-500 focus:border-red-500" : ""}
+                                    />
+                                    {errors.password && (
+                                        <p className="text-sm text-red-600 dark:text-red-400">{errors.password}</p>
+                                    )}
+                                </div>
                                 <Input
                                     isRequired
                                     hideRequiredIndicator
