@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
@@ -10,12 +11,37 @@ import { CemaraLogo } from "@/components/foundations/logo/cemara-logo";
 import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
 import { IndonesiaFlag, UsaFlag } from "@/components/foundations/flag-icons";
 import { IconNotification } from "@/components/application/notifications/notifications";
+import { ThemeToggle } from "@/components/shared-assets/theme-toggle";
 import { useAuth } from "@/lib/context/auth-context";
 import { getUserByEmail, DEFAULT_PASSWORD } from "@/lib/mock-data/users";
+
+interface FormErrors {
+    email?: string;
+    password?: string;
+    form?: string;
+}
 
 export default function LoginPage() {
     const router = useRouter();
     const { login } = useAuth();
+    const [errors, setErrors] = useState<FormErrors>({});
+
+    const validateEmail = (email: string): string | undefined => {
+        if (!email || email.trim() === "") {
+            return "Email tidak boleh kosong. Silahkan isi email terlebih dahulu.";
+        }
+        if (!email.includes("@")) {
+            return "Format email tidak sesuai. Periksa kembali format email yang diinputkan.";
+        }
+        return undefined;
+    };
+
+    const validatePassword = (password: string): string | undefined => {
+        if (!password || password.trim() === "") {
+            return "Password tidak boleh kosong. Silahkan isi password terlebih dahulu.";
+        }
+        return undefined;
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -23,38 +49,43 @@ export default function LoginPage() {
         const email = data.email as string;
         const password = data.password as string;
 
-        // Validate credentials
-        if (password !== DEFAULT_PASSWORD) {
-            toast.custom((t) => (
-                <IconNotification
-                    title="Password Salah"
-                    description="Password yang Anda masukkan tidak sesuai. Silakan coba lagi."
-                    color="error"
-                    hideDismissLabel={true}
-                    onClose={() => toast.dismiss(t)}
-                    onConfirm={() => toast.dismiss(t)}
-                />
-            ));
+        // Clear previous errors
+        setErrors({});
+
+        // Validate email field
+        const emailError = validateEmail(email);
+        if (emailError) {
+            setErrors((prev) => ({ ...prev, email: emailError }));
             return;
         }
 
+        // Validate password field
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            setErrors((prev) => ({ ...prev, password: passwordError }));
+            return;
+        }
+
+        // Check if email exists
         const user = getUserByEmail(email);
         if (!user) {
-            toast.custom((t) => (
-                <IconNotification
-                    title="Email Tidak Ditemukan"
-                    description="Email yang Anda masukkan tidak terdaftar. Silakan periksa kembali."
-                    color="error"
-                    hideDismissLabel={true}
-                    onClose={() => toast.dismiss(t)}
-                    onConfirm={() => toast.dismiss(t)}
-                />
-            ));
+            setErrors({
+                email: "Email tidak terdaftar. Pastikan menggunakan email yang telah terdaftar.",
+            });
+            return;
+        }
+
+        // Validate password
+        if (password !== DEFAULT_PASSWORD) {
+            setErrors({
+                form: "Email atau password tidak sesuai. Periksa kembali atau gunakan fitur Lupa Password jika diperlukan.",
+            });
             return;
         }
 
         // Login successful
         login(user);
+        setErrors({});
         toast.custom((t) => (
             <IconNotification
                 title="Login Berhasil"
@@ -102,9 +133,45 @@ export default function LoginPage() {
                             onSubmit={handleSubmit}
                             className="relative z-10 flex flex-col gap-6"
                         >
+                            {/* Form-level error message */}
+                            {errors.form && (
+                                <div className="rounded-lg bg-red-50 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+                                    {errors.form}
+                                </div>
+                            )}
+
                             <div className="flex flex-col gap-5">
-                                <Input isRequired hideRequiredIndicator label="Email" type="email" name="email" placeholder="Masukkan email Anda" size="md" />
-                                <Input isRequired hideRequiredIndicator label="Password" type="password" name="password" size="md" placeholder="••••••••" />
+                                <div className="flex flex-col gap-1">
+                                    <Input
+                                        isRequired
+                                        hideRequiredIndicator
+                                        label="Email"
+                                        type="email"
+                                        name="email"
+                                        placeholder="Masukkan email Anda"
+                                        size="md"
+                                        className={errors.email ? "border-red-500 focus:border-red-500" : ""}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                    <Input
+                                        isRequired
+                                        hideRequiredIndicator
+                                        label="Password"
+                                        type="password"
+                                        name="password"
+                                        size="md"
+                                        placeholder="••••••••"
+                                        className={errors.password ? "border-red-500 focus:border-red-500" : ""}
+                                    />
+                                    {errors.password && (
+                                        <p className="text-sm text-red-600 dark:text-red-400">{errors.password}</p>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="flex items-center">
@@ -130,15 +197,7 @@ export default function LoginPage() {
                 <footer className="p-4 pt-8 lg:p-8 lg:pt-11">
                     <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <p className="text-sm text-tertiary">© Cemara - PIHC</p>
-                        <div className="flex items-center gap-2">
-                            <Button color="tertiary" size="sm" iconLeading={IndonesiaFlag}>
-                                Indonesia
-                            </Button>
-                            <span className="text-sm text-tertiary">|</span>
-                            <Button color="tertiary" size="sm" iconLeading={UsaFlag} isDisabled>
-                                English
-                            </Button>
-                        </div>
+                        <ThemeToggle />
                     </div>
                 </footer>
             </div>
