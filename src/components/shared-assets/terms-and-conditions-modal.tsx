@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { X as CloseIcon } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 
 interface TermsAndConditionsModalProps {
@@ -27,7 +27,7 @@ export function TermsAndConditionsModal({
                         className="rounded-lg p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
                         aria-label="Close modal"
                     >
-                        <X className="h-6 w-6 text-gray-600 dark:text-gray-400" />
+                        <CloseIcon className="h-6 w-6 text-gray-600 dark:text-gray-400" />
                     </button>
                 </div>
 
